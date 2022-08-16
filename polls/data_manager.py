@@ -23,7 +23,7 @@ def populate_db_with_election_data():
     code_county_dict = code_and_county_dict()
     try:
         print('Adding election data to the database...')   
-        for i in range(1, len(data)+1):
+        for i in range(len(data)):
             list_pol_party = {'democrat': data[i]['democrat'], 
                                 'republic': data[i]['republic'],
                                 'other': data[i]['other']}
@@ -32,8 +32,9 @@ def populate_db_with_election_data():
             win_political_party = max(list_pol_party, key=list_pol_party.get)
             county = code_county_dict.get(data[i]['codecounty'], 'Unknown')
             create_election(year, total_votecount, win_political_party, county)
+        print("The election data was added")
     except Exception as e:
-        print()
+        print("There was an error while creating the election data", e)
 
 def code_and_county_dict():
     with open('county_and_code.csv', 'r', encoding='utf-8') as read_obj:
